@@ -1,5 +1,6 @@
 package com.taco.taco.tacos.Order;
 
+import com.taco.taco.tacos.User.Account;
 import com.taco.taco.tacos.taco.Taco;
 import lombok.Data;
 
@@ -18,6 +19,9 @@ public class Order {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToOne
+    private Account account;
 
     private Date placedAt;
 

@@ -1,10 +1,13 @@
 package com.taco.taco.tacos.web;
 
 import com.taco.taco.tacos.Order.OrderForm;
+import com.taco.taco.tacos.User.Account;
+import com.taco.taco.tacos.User.CurrentUser;
 import com.taco.taco.tacos.data.*;
 import com.taco.taco.tacos.taco.Taco;
 import com.taco.taco.tacos.taco.TacoForm;
 import com.taco.taco.tacos.taco.TacoRepository;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -40,7 +43,7 @@ public class DesignTacoController {
     }
 
     @GetMapping("/design")
-    public String showDesignForm(Model model){
+    public String showDesignForm(@CurrentUser Account account, Model model){
         List<Ingredient> ingredients = ingredientRepository.findAll();
         EnumSet<Type> types = EnumSet.allOf(Type.class);
         for(Type type : types)
