@@ -9,6 +9,7 @@
 <body>
     <h1> Design your taco!</h1>
     <img th:src="@{/images/TacoCloud.jpg}">
+    <h2 th:text="${user}">User Name</h2>
     <form method="post" th:object="${tacoForm}" th:action="@{/design}">
         <span class="validationError" th:if="${#fields.hasErrors('ingredients')}" th:errors="*{ingredients}">
             Ingredients Error

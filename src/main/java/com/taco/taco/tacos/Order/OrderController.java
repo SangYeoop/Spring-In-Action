@@ -13,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.ast.Or;
 import org.hibernate.sql.ordering.antlr.OrderByFragment;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,12 +29,26 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller
+@ConfigurationProperties(prefix = "taco.orders")
 @SessionAttributes("orderForm")
 @RequestMapping("/orders")
+@Controller
 public class OrderController {
 
     private final OrderService orderService;
+    private int pageSize = 20;
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    @GetMapping
+    public String ordersForUser(@CurrentUser Account account, Model model) {
+        Pageable pageable = PageRequest.of(0, 20);
+        model.addAttribute("orders", orderService.findByAccountOrderByPlacedAtDesc(account, pageable));
+
+        return "orderList";
+    }
 
     @GetMapping("/current")
     public String orderForm(@CurrentUser Account account, @ModelAttribute OrderForm orderForm) {

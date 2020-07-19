@@ -34,8 +34,6 @@ import java.util.stream.Collectors;
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;
-    private final TacoRepository tacoRepository;
-    private final ModelMapper modelMapper;
 
     @ModelAttribute
     public OrderForm orderForm() {
@@ -48,7 +46,7 @@ public class DesignTacoController {
         EnumSet<Type> types = EnumSet.allOf(Type.class);
         for(Type type : types)
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
-
+        model.addAttribute("user", account.getUsername());
         model.addAttribute(new TacoForm());
         return "design";
     }

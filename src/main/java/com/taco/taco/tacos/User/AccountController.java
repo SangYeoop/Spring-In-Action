@@ -33,6 +33,6 @@ public class AccountController {
             return "registration";
         }
         accountService.save(form);
-        return "redirect:/login";
+        return "redirect:/design";
     }
 }
